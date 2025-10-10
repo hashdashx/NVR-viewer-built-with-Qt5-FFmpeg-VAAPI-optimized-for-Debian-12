@@ -117,6 +117,3 @@ Defines build configuration for Qt + FFmpeg integration.
 MIT © hashdashx
 
 ---
-
-git remote add origin https://github.com/hashdashx/nvr-gui-vaapi.git
-git push -u origin main
