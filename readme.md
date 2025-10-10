@@ -114,21 +114,9 @@ Defines build configuration for Qt + FFmpeg integration.
 ---
 
 ## 📜 License
-MIT © revaxp
+MIT © hashdashx
 
 ---
 
-## 🧭 Next Steps
-- Add `docs/screenshot.png` preview.
-- Create GitHub Actions workflow for CI/CD build check.
-- Optional: add Dockerfile for headless deployment on Debian.
-
----
-
-### 🔗 Repository Example
-```
-git init
-git add .
-git commit -m "Initial commit: NVR GUI VAAPI"
 git remote add origin https://github.com/hashdashx/nvr-gui-vaapi.git
 git push -u origin main
