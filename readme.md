@@ -24,13 +24,16 @@ This project displays multiple RTSP/HTTP camera streams in a fullscreen **2×2 g
 ## 📂 Folder Structure
 ```
 NVR-viewer-built-with-Qt5-FFmpeg-VAAPI-optimized-for-Debian-12/
-└────start-nvr-test.sh
-└────kill.sh
-└────nvr-gui-vaapi/
-      ├── src/
-      └── main.cpp
-      ├── CMakeLists.txt
-      ├── config.json
+ └────build.sh
+ └────start-nvr-test.sh
+ └────kill.sh
+  └────nvr-gui-vaapi/
+       └────src/
+             └── main.cpp
+       ├── build/
+            ├── config.json
+       ├── CMakeLists.txt
+      
    
 ```
 
