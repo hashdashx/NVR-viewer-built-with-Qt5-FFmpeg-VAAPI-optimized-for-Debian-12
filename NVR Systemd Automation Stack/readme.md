@@ -231,4 +231,4 @@ Semua konfigurasi di atas membentuk sistem otomatis yang tahan gangguan jaringan
 
 📍 **Dibuat untuk:** integrasi NVR headless berbasis Debian/Armbian  
 📅 **Versi:** 1.0  
-✍️ **Author:** kamu (disarankan tambahkan GitHub username-mu di sini)
+✍️ **Author:** hashdashx
