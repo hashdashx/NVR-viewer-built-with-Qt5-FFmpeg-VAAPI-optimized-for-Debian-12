@@ -1,0 +1,25 @@
+[Unit]
+Description=Auto mount NAS AgentMedia
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/bin/bash -c '\
+  echo "[NAS] Mounting from fstab..."; \
+  for i in {1..10}; do \
+    if /bin/mount -a -t cifs 2>/tmp/mount-nas.log; then \
+      echo "[NAS] Mount OK."; \
+      exit 0; \
+    fi; \
+    echo "[NAS] Attempt $i failed, retrying in 5s..."; \
+    sleep 5; \
+  done; \
+  echo "[NAS] Mount failed after 10 retries"; \
+  exit 1;'
+SuccessExitStatus=0 32
+TimeoutStartSec=90
+
+[Install]
+WantedBy=graphical.target

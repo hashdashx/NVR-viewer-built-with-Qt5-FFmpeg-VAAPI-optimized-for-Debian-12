@@ -1,0 +1,50 @@
+[Unit]
+Description=Monitor NAS AgentMedia mount and control NVR accordingly
+After=mount-agentmedia.service
+Requires=mount-agentmedia.service
+
+[Service]
+Type=simple
+ExecStart=/bin/bash -c '\
+  MNT=/mnt/nas/AgentMedia; \
+  echo "[NAS-MON] Starting NAS monitor..."; \
+  LAST_STATE="unknown"; \
+  WAS_FAILED=0; \
+  while true; do \
+    if mountpoint -q "$MNT" && timeout 2 ls "$MNT" >/dev/null 2>&1; then \
+      if [ "$LAST_STATE" != "mounted" ]; then \
+        echo "[NAS-MON] NAS is mounted and OK."; \
+        if [ "$WAS_FAILED" -eq 1 ]; then \
+          echo "[NAS-MON] NAS reconnected. Running nvr-only.sh..."; \
+          if /root/nvr-only.sh; then \
+            echo "[NAS-MON] nvr-only.sh executed successfully."; \
+          else \
+            echo "[NAS-MON] nvr-only.sh FAILED to run!"; \
+          fi; \
+          WAS_FAILED=0; \
+        fi; \
+        LAST_STATE="mounted"; \
+      fi; \
+    else \
+      if [ "$LAST_STATE" != "unmounted" ]; then \
+        echo "[NAS-MON] NAS is not mounted! Running kill-nvr.sh..."; \
+        if /root/kill-nvr.sh; then \
+          echo "[NAS-MON] kill-nvr.sh executed successfully."; \
+        else \
+          echo "[NAS-MON] kill-nvr.sh FAILED to run!"; \
+        fi; \
+        echo "[NAS-MON] Retrying mount..."; \
+        /bin/mount -a -t cifs >/dev/null 2>&1; \
+        LAST_STATE="unmounted"; \
+        WAS_FAILED=1; \
+      fi; \
+    fi; \
+    sleep 15; \
+  done'
+Restart=always
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,14 @@
+[Unit]
+Description=Start Xorg Display Server on :0
+After=network.target systemd-user-sessions.service
+
+[Service]
+ExecStart=/usr/bin/Xorg :0 -nolisten tcp vt1
+Restart=always
+User=root
+WorkingDirectory=/root
+StandardOutput=null
+StandardError=null
+
+[Install]
+WantedBy=graphical.target

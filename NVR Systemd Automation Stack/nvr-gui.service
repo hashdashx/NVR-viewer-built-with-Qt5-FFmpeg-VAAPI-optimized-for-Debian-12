@@ -1,0 +1,19 @@
+[Unit]
+Description=NVR GUI
+After=xorg.service network-online.target
+Requires=xorg.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/root
+ExecStartPre=/bin/bash -c 'for i in {1..20}; do [ -S /tmp/.X11-unix/X0 ] && exit 0 || echo "[WAIT] Xorg belum siap ($i)..." && sleep 1; done; exit 1'
+ExecStart=/bin/bash /root/nvr.sh
+Restart=always
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=graphical.target
